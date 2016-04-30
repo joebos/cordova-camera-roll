@@ -34,10 +34,25 @@
   UIImage *image = [UIImage imageWithData:imageData];
 
   // save the image to photo album
-  UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+  //UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
 
-  CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"saved"];
-  [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+  //CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"saved"];
+  //[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+
+    ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+    [library writeImageToSavedPhotosAlbum:[image CGImage] completionBlock:^(NSURL *assetURL, NSError *error){
+        if(error) {
+            NSLog(@"IonicCameraRoll: Error on saving movie : %@", error);
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error description]];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }
+        else {
+            NSLog(@"URL: %@", assetURL);
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[assetURL absoluteString]];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }
+    }];
+
 }
 
 - (void)moveVideoToCameraRoll:(CDVInvokedUrlCommand*)command
