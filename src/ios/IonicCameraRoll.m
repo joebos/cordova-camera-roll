@@ -12,6 +12,7 @@
 #import "IonicCameraRoll.h"
 #import <AssetsLibrary/ALAssetRepresentation.h>
 #import <CoreLocation/CoreLocation.h>
+#import "AssetsLibrary/AssetsLibrary.h
 
 @implementation IonicCameraRoll
 
