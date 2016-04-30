@@ -41,7 +41,7 @@
   //[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 
     ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-    [library writeImageToSavedPhotosAlbum:[image CGImage] completionBlock:^(NSURL *assetURL, NSError *error){
+    [library writeImageToSavedPhotosAlbum:[image CGImage] orientation:(ALAssetOrientation)[image imageOrientation] completionBlock:^(NSURL *assetURL, NSError *error){
         if(error) {
             NSLog(@"IonicCameraRoll: Error on saving movie : %@", error);
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error description]];
